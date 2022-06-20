@@ -2,8 +2,9 @@
   "name": "valivalue",
   "version": "1.0.0",
   "description": "A library to quickly validate values!",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/artus/valivalue/issues"
   },
-  "homepage": "https://github.com/artus/valivalue#readme"
+  "homepage": "https://github.com/artus/valivalue#readme",
+  "devDependencies": {
+    "@types/luxon": "^2.3.2",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "luxon": "^2.4.0"
+  }
 }
