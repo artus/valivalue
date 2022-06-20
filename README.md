@@ -15,7 +15,7 @@ ValiValue exports a default validator that can be used to perform some pre-imple
  - objects
  - strings
  - numbers
- - timestamps ((Luxon)[https://moment.github.io/luxon/#/] (DateTime)[https://moment.github.io/luxon/api-docs/index.html#datetime])
+ - timestamps ([Luxon](https://moment.github.io/luxon/#/) [DateTime](https://moment.github.io/luxon/api-docs/index.html#datetime))
 
 Validation methods follow a simple format:
 
