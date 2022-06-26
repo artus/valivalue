@@ -1,0 +1,1 @@
+export type ErrorFactory = (message: string) => Error;

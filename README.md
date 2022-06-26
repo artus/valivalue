@@ -38,7 +38,7 @@ validator.objects.validateNotNull(null, "My object");
 // Throws error with message "Your object is undefined.".
 validator.objects.validateNotNull(null, "Your object");
 
-// Throws error with message "Age must be positive.".
+// Throws error with message "Age must be a positive number.".
 validator.numbers.validateIsPositive(-1, "Age");
 ```
 

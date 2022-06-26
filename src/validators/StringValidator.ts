@@ -1,71 +1,83 @@
-import { ObjectValidator } from "./ObjectValidator";
+import { errorMessageFactories } from "../error-messages/ErrorMessageFactory";
+import { AbstractValidator } from "./AbstractValidator";
 
-type StringType = string | undefined;
+const {
+  strings: stringFactories
+} = errorMessageFactories;
 
-export class StringValidator {
+const DEFAULT_SUBJECT = 'String';
 
-  constructor(
-    private readonly objectValidator: ObjectValidator
-  ) {
-    // Do nothing
+export class StringValidator<OutputType> extends AbstractValidator<string, OutputType> {
+
+  validateMinLength(
+    value: string,
+    min: number,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateMinLength
+  ): OutputType {
+    return this.handle(value, value.length < min, () => errorMessageFactory(subject, value, min));
   }
 
-  validateMinLength(value: StringType, min: number, subject = 'String'): string {
-    const validatedString = this.objectValidator.validateNotNull(value, subject);
-
-    if (validatedString.length < min) {
-      throw new Error(`${subject} must at least be ${min} character(s) long.`);
-    }
-
-    return validatedString;
+  validateMaxLength(
+    value: string,
+    max: number,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateMaxLength
+  ): OutputType {
+    return this.handle(value, value.length > max, () => errorMessageFactory(subject, value, max));
   }
 
-  validateMaxLength(value: StringType, max: number, subject = 'String'): string {
-    const validatedString = this.objectValidator.validateNotNull(value, subject);
-
-    if (validatedString.length > max) {
-      throw new Error(`${subject} can not have more than ${max} character(s).`);
-    }
-
-    return validatedString;
+  validateMinAndMaxLength(
+    value: string,
+    min: number,
+    max: number,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateMinAndMaxLength
+  ): OutputType {
+    return this.handle(value, value.length < min || value.length > max, () => errorMessageFactory(subject, value, min, max));
   }
 
-  validateMinAndMaxLength(value: StringType, min: number, max: number, subject = 'String'): string {
-    const validatedString = this.objectValidator.validateNotNull(value, subject);
-
-    if (validatedString.length < min || validatedString.length > max) {
-      throw new Error(`${subject} must be between ${min} and ${max} characters long.`);
-    }
-
-    return validatedString;
-  }
-
-  validateDoesNotContain(value: StringType, forbiddenValues: string[], subject = 'String'): string {
-    const validatedString = this.objectValidator.validateNotNull(value, subject);
-
-    for (const forbiddenValue of forbiddenValues) {
-      if (validatedString.indexOf(forbiddenValue) >= 0) {
-        throw new Error(`${subject} can not contain '${forbiddenValue}'.`)
+  validateDoesNotContain(
+    value: string,
+    forbidden: string | string[],
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateDoesNotContain
+  ): OutputType {
+    if (Array.isArray(forbidden)) {
+      for (const forbiddenValue of forbidden) {
+        if (value.indexOf(forbiddenValue) >= 0) {
+          return this.failure(value, errorMessageFactory(subject, value, forbiddenValue));
+        }
       }
+      return this.success(value);
+    } else {
+      return this.handle(value, value.indexOf(forbidden) >= 0, () => errorMessageFactory(subject, value, forbidden));
     }
-
-    return validatedString;
   }
 
-  validateDoesNotContainCaseInsensitive(value: StringType, forbiddenValues: string[], subject = 'String'): string {
-    const lowerCaseForbiddenValues = forbiddenValues.map(forbiddenValue => forbiddenValue.toLowerCase());
-    const validatedString = this.objectValidator.validateNotNull(value, subject);
-
-    return this.validateDoesNotContain(validatedString.toLowerCase(), lowerCaseForbiddenValues, subject);
+  validateDoesNotContainCaseInsensitive(
+    value: string,
+    forbidden: string | string[],
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateDoesNotContain
+  ): OutputType {
+    if (Array.isArray(forbidden)) {
+      const lowerCaseForbiddenValues = forbidden.map(forbidden => forbidden.toLowerCase());
+      return this.validateDoesNotContain(value.toLowerCase(), lowerCaseForbiddenValues, subject, errorMessageFactory);
+    } else {
+      return this.validateDoesNotContain(value.toLowerCase(), forbidden, subject, errorMessageFactory);
+    }
   }
 
-  validateResemblesEmail(value: StringType, subject: string): string {
-    const validatedString = this.objectValidator.validateNotNull(value, subject);
-
-    if (validatedString.indexOf('@') < 1 || validatedString.indexOf('@') > validatedString.length - 1) {
-      throw new Error(`${subject} must be an email address.`);
-    }
-
-    return validatedString;
+  validateResemblesEmail(
+    value: string,
+    subject: string,
+    errorMessageFactory = stringFactories.validateResemblesEmail
+  ): OutputType {
+    return this.handle(
+      value,
+      value.indexOf('@') < 1 || value.indexOf('@') > value.length - 1,
+      () => errorMessageFactory(subject, value)
+    );
   }
 }

@@ -1,55 +1,62 @@
 import { DateTime } from "luxon";
-import { ObjectValidator } from "./ObjectValidator";
+import { AbstractValidator } from "./AbstractValidator";
+import { errorMessageFactories } from "../error-messages/ErrorMessageFactory";
 
-type DateTimeType = DateTime | undefined;
+const {
+  timestamps: timestampFactories
+} = errorMessageFactories
 
 const DEFAULT_SUBJECT = 'Timestamp';
 
-export class TimestampValidator {
+export class TimestampValidator<OutputType> extends AbstractValidator<DateTime, OutputType> {
 
-  constructor(
-    private readonly objectValidator: ObjectValidator
-  ) {
-    // Do nothing
+  validateIsAfter(
+    value: DateTime,
+    isAfter: DateTime,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = timestampFactories.validateIsAfter
+  ): OutputType {
+    return this.handle(
+      value,
+      value.toMillis() < isAfter.toMillis(),
+      () => errorMessageFactory(subject, value, isAfter)
+    );
   }
 
-  validateIsAfter(timestamp: DateTimeType, isAfter: DateTime, subject = DEFAULT_SUBJECT): DateTime {
-    const validatedTimestamp = this.objectValidator.validateNotNull(timestamp, subject);
-
-    if (validatedTimestamp.toMillis() < isAfter.toMillis()) {
-      throw new Error(`${subject} must be after ${isAfter.toLocaleString(DateTime.DATETIME_FULL)}`);
-    }
-
-    return validatedTimestamp;
+  validateIsBefore(
+    value: DateTime,
+    isBefore: DateTime,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = timestampFactories.validateIsBefore
+  ): OutputType {
+    return this.handle(
+      value,
+      value.toMillis() > isBefore.toMillis(),
+      () => errorMessageFactory(subject, value, isBefore)
+    );
   }
 
-  validateIsBefore(timestamp: DateTimeType, isBeore: DateTime, subject = DEFAULT_SUBJECT): DateTime {
-    const validatedTimestamp = this.objectValidator.validateNotNull(timestamp, subject);
-
-    if (validatedTimestamp.toMillis() > isBeore.toMillis()) {
-      throw new Error(`${subject} must be before ${isBeore.toLocaleString(DateTime.DATETIME_FULL)}`);
-    }
-
-    return validatedTimestamp;
+  validateIsInPast(
+    value: DateTime,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = timestampFactories.validateIsInPast
+  ): OutputType {
+    return this.handle(
+      value,
+      value.toMillis() > DateTime.now().toMillis(),
+      () => errorMessageFactory(subject, value)
+    );
   }
 
-  validateIsInPast(timestamp: DateTimeType, subject = DEFAULT_SUBJECT): DateTime {
-    const validatedTimestamp = this.objectValidator.validateNotNull(timestamp, subject);
-
-    if (validatedTimestamp.toMillis() > DateTime.now().toMillis()) {
-      throw new Error(`${subject} must be in the past.`);
-    }
-
-    return validatedTimestamp;
-  }
-
-  validateIsInFuture(timestamp: DateTimeType, subject = DEFAULT_SUBJECT): DateTime {
-    const validatedTimestamp = this.objectValidator.validateNotNull(timestamp, subject);
-
-    if (validatedTimestamp.toMillis() < DateTime.now().toMillis()) {
-      throw new Error(`${subject} must be in the future.`);
-    }
-
-    return validatedTimestamp;
+  validateIsInFuture(
+    value: DateTime,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = timestampFactories.validateIsInFuture
+  ): OutputType {
+    return this.handle(
+      value,
+      value.toMillis() < DateTime.now().toMillis(),
+      () => errorMessageFactory(subject, value)
+    );
   }
 }
