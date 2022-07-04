@@ -1,7 +1,7 @@
 name: Run jest
 on: [push, pull_request]
 jobs:
-  Install dependencies:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
