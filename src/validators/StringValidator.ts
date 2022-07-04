@@ -9,6 +9,14 @@ const DEFAULT_SUBJECT = 'String';
 
 export class StringValidator<OutputType> extends AbstractValidator<string, OutputType> {
 
+  validateNotEmpty(
+    value: string,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateNotEmpty
+  ): OutputType {
+    return this.handle(value, value.trim().length === 0, () => errorMessageFactory(subject, value));
+  }
+
   validateMinLength(
     value: string,
     min: number,
@@ -65,18 +73,18 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
       const lowerCaseForbiddenValues = forbidden.map(forbidden => forbidden.toLowerCase());
       return this.validateDoesNotContain(value.toLowerCase(), lowerCaseForbiddenValues, subject, errorMessageFactory);
     } else {
-      return this.validateDoesNotContain(value.toLowerCase(), forbidden, subject, errorMessageFactory);
+      return this.validateDoesNotContain(value.toLowerCase(), forbidden.toLowerCase(), subject, errorMessageFactory);
     }
   }
 
   validateResemblesEmail(
     value: string,
-    subject: string,
+    subject: string = DEFAULT_SUBJECT,
     errorMessageFactory = stringFactories.validateResemblesEmail
   ): OutputType {
     return this.handle(
       value,
-      value.indexOf('@') < 1 || value.indexOf('@') > value.length - 1,
+      value.indexOf('@') < 1 || value.indexOf('@') >= value.length - 1,
       () => errorMessageFactory(subject, value)
     );
   }

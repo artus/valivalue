@@ -47,6 +47,8 @@ describe('errorMessageFactory', () => {
   });
 
   test('strings', () => {
+    expect(strings.validateNotEmpty(TEST_SUBJECTS.STRING, TEST_VALUES.STRING))
+      .toBe('String must not be empty.');
     expect(strings.validateMinLength(TEST_SUBJECTS.STRING, TEST_VALUES.STRING, 2))
       .toBe('String must at least be 2 character(s) long.');
     expect(strings.validateMaxLength(TEST_SUBJECTS.STRING, TEST_VALUES.STRING, 2))

@@ -13,6 +13,7 @@ export const errorMessageFactories = {
     validateIsOdd: (subject: string, value: number) => `${subject} must be odd.`
   },
   strings: {
+    validateNotEmpty: (subject: string, value: string) => `${subject} must not be empty.`,
     validateMinLength: (subject: string, value: string, min: number) => `${subject} must at least be ${min} character(s) long.`,
     validateMaxLength: (subject: string, value: string, max: number) => `${subject} can not have more than ${max} character(s).`,
     validateMinAndMaxLength: (subject: string, value: string, min: number, max: number) => `${subject} must be between ${min} and ${max} characters long.`,
