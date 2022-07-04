@@ -72,9 +72,9 @@ describe('errorMessageFactory', () => {
     const validateAfterErrorMessage = timestamps.validateIsAfter(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP, OTHER_TIMESTAMP);
     const validateBeforeErrorMessage = timestamps.validateIsBefore(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP, OTHER_TIMESTAMP);
 
-    expect(validateAfterErrorMessage.indexOf('Timestamp must be after 1 January 2018'))
+    expect(validateAfterErrorMessage.indexOf('Timestamp must be after'))
       .toBe(0);
-    expect(validateBeforeErrorMessage.indexOf('Timestamp must be before 1 January 2018'))
+    expect(validateBeforeErrorMessage.indexOf('Timestamp must be before'))
       .toBe(0);
     expect(timestamps.validateIsInPast(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP))
       .toBe('Timestamp must be in the past.');
