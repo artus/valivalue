@@ -1,10 +1,9 @@
-import valivalue, { validators } from "..";
+import valivalue, { chainable, reporting } from "..";
 
 describe('index', () => {
   test('Should export a preconfigured validators', () => {
-    expect(validators.chainable()).not.toBeUndefined();
-    expect(validators.default).not.toBeUndefined();
-    expect(validators.reporting).not.toBeUndefined();
+    expect(chainable()).not.toBeUndefined();
+    expect(reporting).not.toBeUndefined();
   });
 
   test('Should export a preconfigured throwing validator by default', () => {

@@ -69,9 +69,9 @@ valivalue.objects.validateNotNullOrUndefined({});
 Valivalue also exports a `reporting` validator, which does not throw but returns an error report:
 
 ```js
-import { validators } from "valivalue";
+import { reporting } from "valivalue";
 
-const { numbers } = validators.reporting;
+const { numbers } = reporting;
 
 const validationReport = numbers.validateIsEven(1);
 
@@ -88,8 +88,7 @@ validationReport.throw(); // Only throws if the validation failed.
 Valivalue also exports a `chainable` validator, which returns itself after each validation and keeps track of all validation failures:
 
 ```js
-import { validators } from "valivalue";
-const { chainable } = validators;
+import { chainable } from "valivalue";
 
 const firstName = "Some input value";
 
