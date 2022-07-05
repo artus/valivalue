@@ -102,3 +102,13 @@ if (result.isFailure()) {
 }
 ```
 If you call `throw` on the `chainable` validator, the first validation error is thrown.
+
+You can also configure the `chainable` validator to throw directly on a failed validation:
+
+```js
+import { chainable } from "valivalue";
+
+chainable(true)
+  .strings.validateNotEmpty("") // Throws directly, does not continue validation
+  .numbers.validateIsEven(1);
+```

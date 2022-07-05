@@ -56,4 +56,14 @@ describe('ChainableValidator', () => {
       expect(() => result.throw()).not.toThrow();
     });
   });
+
+  describe('throwOnFailure', () => {
+    test('Should throw on the first failure', () => {
+      expect(() => {
+        new ChainableValidator(true)
+          .strings.validateNotEmpty("")
+          .numbers.validateIsEven(1);
+      }).toThrow('String must not be empty.');
+    });
+  });
 });

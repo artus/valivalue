@@ -16,7 +16,7 @@ export class ChainableValidator {
   readonly numbers: NumberValidator<ChainableValidator>;
   readonly timestamps: TimestampValidator<ChainableValidator>
 
-  constructor() {
+  constructor(private readonly throwOnFailure = false) {
 
     const validationReportFactory = <InputType>() => {
       return (value: InputType, error?: Error): ChainableValidator => {
@@ -42,6 +42,9 @@ export class ChainableValidator {
   }
 
   private add<T>(validationReport: ValidationReport<T>): ChainableValidator {
+    if (this.throwOnFailure && validationReport.isFailure()) {
+      validationReport.throw();
+    }
     this.results.push(validationReport);
     return this;
   }

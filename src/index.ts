@@ -3,6 +3,6 @@ import { reportingValidator } from "./combined-validators/ReportingValidator";
 import { throwingValidator } from "./combined-validators/ThrowingValidator";
 
 export const reporting = reportingValidator;
-export const chainable = () => new ChainableValidator();
+export const chainable = (throwOnFailure = false) => new ChainableValidator(throwOnFailure);
 
 export default throwingValidator;
