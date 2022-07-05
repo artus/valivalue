@@ -47,6 +47,8 @@ describe('errorMessageFactory', () => {
   });
 
   test('strings', () => {
+    expect(strings.validateNotEmpty(TEST_SUBJECTS.STRING, TEST_VALUES.STRING))
+      .toBe('String must not be empty.');
     expect(strings.validateMinLength(TEST_SUBJECTS.STRING, TEST_VALUES.STRING, 2))
       .toBe('String must at least be 2 character(s) long.');
     expect(strings.validateMaxLength(TEST_SUBJECTS.STRING, TEST_VALUES.STRING, 2))
@@ -69,10 +71,13 @@ describe('errorMessageFactory', () => {
   });
   
   test('timestamps', () => {
-    expect(timestamps.validateIsAfter(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP, OTHER_TIMESTAMP))
-      .toBe('Timestamp must be after 1 January 2018, 01:00 CET.');
-    expect(timestamps.validateIsBefore(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP, OTHER_TIMESTAMP))
-      .toBe('Timestamp must be before 1 January 2018, 01:00 CET.');
+    const validateAfterErrorMessage = timestamps.validateIsAfter(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP, OTHER_TIMESTAMP);
+    const validateBeforeErrorMessage = timestamps.validateIsBefore(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP, OTHER_TIMESTAMP);
+
+    expect(validateAfterErrorMessage.indexOf('Timestamp must be after'))
+      .toBe(0);
+    expect(validateBeforeErrorMessage.indexOf('Timestamp must be before'))
+      .toBe(0);
     expect(timestamps.validateIsInPast(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP))
       .toBe('Timestamp must be in the past.');
     expect(timestamps.validateIsInFuture(TEST_SUBJECTS.TIMESTAMP, TEST_VALUES.TIMESTAMP))
