@@ -16,6 +16,12 @@ export class ValidationReport<InputType> {
   isFailure(): boolean {
     return !!this.error;
   }
+
+  throw(): void {
+    if (this.isFailure()) {
+      throw this.error;
+    }
+  }
 }
 
 export function validationReportFactory <InputType>(): ValidationResultFactory<InputType, ValidationReport<InputType>> {

@@ -5,7 +5,7 @@ import { NumberValidator } from "../validators/NumberValidator";
 import { ObjectValidator } from "../validators/ObjectValidator";
 import { StringValidator } from "../validators/StringValidator";
 import { TimestampValidator } from "../validators/TimestampValidator";
-import { ValidationReport } from "./ValidationReport";
+import { ValidationReport } from "../validation-result/ValidationReport";
 
 
 export class ChainableValidator {
@@ -58,5 +58,11 @@ export class ChainableValidator {
     return this.results
       .filter(result => result.isFailure())
       .map(result => result.error!);
+  }
+
+  throw(): void {
+    if (this.isFailure()) {
+      throw this.errors[0];
+    }
   }
 }
