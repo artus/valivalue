@@ -7,8 +7,21 @@ const {
 
 const DEFAULT_SUBJECT = 'String';
 
+/**
+ * The StringValidator is a validator that contains methods to validate values of type string.
+ * 
+ * @class StringValidator<OutputType>
+ */
 export class StringValidator<OutputType> extends AbstractValidator<string, OutputType> {
 
+  /**
+   * Validate whether the value is not empty. Supplied values will be trimmed before validation.
+   * 
+   * @param {string} value - The value to be validated.
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateNotEmpty(
     value: string,
     subject = DEFAULT_SUBJECT,
@@ -17,6 +30,15 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
     return this.handle(value, value.trim().length === 0, () => errorMessageFactory(subject, value));
   }
 
+  /**
+   * Validate whether the string length is equal or larger than the supplied minimum value.
+   * 
+   * @param {string} value - The value to be validated.
+   * @param {number} min - The minimum length.
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateMinLength(
     value: string,
     min: number,
@@ -26,6 +48,15 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
     return this.handle(value, value.length < min, () => errorMessageFactory(subject, value, min));
   }
 
+  /**
+   * Validate whether the string length is equal or smaller than the supplied maximum value.
+   * 
+   * @param {string} value - The value to be validated.
+   * @param {number} max - The maximum length.
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateMaxLength(
     value: string,
     max: number,
@@ -35,6 +66,17 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
     return this.handle(value, value.length > max, () => errorMessageFactory(subject, value, max));
   }
 
+  /**
+   * Validate whether the string length is equal or larger than the provided minimum value,
+   * or equal or smaller than the supplied maximum value.
+   * 
+   * @param {string} value - The value to be validated.
+   * @param {number} min - The minimum length.
+   * @param {number} max - The maximum length.
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateMinAndMaxLength(
     value: string,
     min: number,
@@ -45,6 +87,15 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
     return this.handle(value, value.length < min || value.length > max, () => errorMessageFactory(subject, value, min, max));
   }
 
+  /**
+   * Validate whether the string does not contain the supplied forbidden value. This validation is case-sensitive.
+   * 
+   * @param {string} value - The value to be validated.
+   * @param {(string|string[])} forbidden - The forbidden value, or a list of forbidden values.
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateDoesNotContain(
     value: string,
     forbidden: string | string[],
@@ -63,6 +114,15 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
     }
   }
 
+  /**
+   * Validate whether the string does not contain the supplied forbidden value. This validation is case-insensitive.
+   * 
+   * @param {string} value - The value to be validated.
+   * @param {(string|string[])} forbidden - The forbidden value, or a list of forbidden values.
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateDoesNotContainCaseInsensitive(
     value: string,
     forbidden: string | string[],
@@ -77,6 +137,17 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
     }
   }
 
+  /**
+   * Validate whether the string resembles an email. Email validation is hard, which is why you should not depend on complicated
+   * regex rules or other matching algorithms. The only way to be certain that an email is valid is by sending a confirmation email.
+   * 
+   * This method will validate whether the supplied string resembles an email by checking whether there is an '@' symbol embedded in the correct location.
+   * 
+   * @param {string} value - The value to be validated.
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateResemblesEmail(
     value: string,
     subject: string = DEFAULT_SUBJECT,

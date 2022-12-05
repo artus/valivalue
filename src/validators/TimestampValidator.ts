@@ -8,8 +8,22 @@ const {
 
 const DEFAULT_SUBJECT = 'Timestamp';
 
+/**
+ * The TimestampValidator is a validator that contains methods to validate values of type luxon DateTime.
+ * 
+ * @class TimestampValidator<OutputType>
+ */
 export class TimestampValidator<OutputType> extends AbstractValidator<DateTime, OutputType> {
 
+  /**
+   * Validate whether the supplied timestamp is after the supplied minimum timestamp.
+   * 
+   * @param {DateTime} value - The value to be validated.
+   * @param {DateTime} isAfter - The lower bound.
+   * @param {string} [subject=Timestamp] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateIsAfter(
     value: DateTime,
     isAfter: DateTime,
@@ -23,6 +37,15 @@ export class TimestampValidator<OutputType> extends AbstractValidator<DateTime, 
     );
   }
 
+  /**
+   * Validate whether the supplied timestamp is before the supplied maximum timestamp.
+   * 
+   * @param {DateTime} value - The value to be validated.
+   * @param {DateTime} isBefore - The upper bound.
+   * @param {string} [subject=Timestamp] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateIsBefore(
     value: DateTime,
     isBefore: DateTime,
@@ -36,6 +59,15 @@ export class TimestampValidator<OutputType> extends AbstractValidator<DateTime, 
     );
   }
 
+
+  /**
+   * Validate whether the supplied timestamp is in the past.
+   * 
+   * @param {DateTime} value - The value to be validated.
+   * @param {string} [subject=Timestamp] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateIsInPast(
     value: DateTime,
     subject = DEFAULT_SUBJECT,
@@ -48,6 +80,14 @@ export class TimestampValidator<OutputType> extends AbstractValidator<DateTime, 
     );
   }
 
+  /**
+   * Validate whether the supplied timestamp is in the future.
+   * 
+   * @param {DateTime} value - The value to be validated.
+   * @param {string} [subject=Timestamp] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
   validateIsInFuture(
     value: DateTime,
     subject = DEFAULT_SUBJECT,

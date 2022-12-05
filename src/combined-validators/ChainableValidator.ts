@@ -7,7 +7,11 @@ import { StringValidator } from "../validators/StringValidator";
 import { TimestampValidator } from "../validators/TimestampValidator";
 import { ValidationReport } from "../validation-result/ValidationReport";
 
-
+/**
+ * The ChainableValidator allows you to call multiple validation methods with only 1 validator object.
+ * 
+ * @class ChainableValidator
+ */
 export class ChainableValidator {
 
   readonly results: ValidationReport<unknown>[] = [];
@@ -16,6 +20,11 @@ export class ChainableValidator {
   readonly numbers: NumberValidator<ChainableValidator>;
   readonly timestamps: TimestampValidator<ChainableValidator>
 
+  /**
+   * Construct a new ChainableValidator
+   * 
+   * @param {boolean} [throwOnFailure=false] - Should the validator throw directly when a validation failure occurs.
+   */
   constructor(private readonly throwOnFailure = false) {
 
     const validationReportFactory = <InputType>() => {
@@ -49,20 +58,36 @@ export class ChainableValidator {
     return this;
   }
 
+  /**
+   * Check whether all validations (so far) are successful.
+   * 
+   * @returns {boolean} Indication whether the validations are successful.
+   */
   isSuccess(): boolean {
     return this.results.every(result => result.isSuccess());
   }
 
+  /**
+   * Check whether any validation (so far) is a failure.
+   * 
+   * @returns {boolean} Inidication whether any validation is a failure.
+   */
   isFailure(): boolean {
     return this.results.some(result => result.isFailure());
   }
 
+  /**
+   * Get the list of errors (so far).
+   */
   get errors(): Error[] {
     return this.results
       .filter(result => result.isFailure())
       .map(result => result.error!);
   }
 
+  /**
+   * In case of any validation failure, throw the first error that occured.
+   */
   throw(): void {
     if (this.isFailure()) {
       throw this.errors[0];

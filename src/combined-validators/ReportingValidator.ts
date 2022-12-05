@@ -12,6 +12,9 @@ const reportingNumberValidatorOptions = new ValidationOptions<number, Validation
 const reportingStringValidatorOptions = new ValidationOptions<string, ValidationReport<string>>(defaultErrorFactory, validationReportFactory<string>());
 const reportingTimestampValidatorOptions = new ValidationOptions<DateTime, ValidationReport<DateTime>>(defaultErrorFactory, validationReportFactory<DateTime>());
 
+/**
+ * A collection of default reporting validators that will not throw errors automatically on validation failure, but will keep track of them in a ValidationReport.
+ */
 export const reportingValidator = {
   objects: new ObjectValidator(reportingObjectValidatorOptions),
   strings: new StringValidator(reportingStringValidatorOptions),

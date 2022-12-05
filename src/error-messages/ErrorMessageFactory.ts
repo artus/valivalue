@@ -1,5 +1,8 @@
 import { DateTime } from "luxon";
 
+/**
+ * The deafult ErrorMessageFactories.
+ */
 export const errorMessageFactories = {
   numbers: {
     validateMinValue: (subject: string, value: number, min: number) => `${subject} must not be lower than ${min}.`,

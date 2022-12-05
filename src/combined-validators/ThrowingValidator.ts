@@ -12,6 +12,9 @@ const throwingNumberValidatorOptions = new ValidationOptions<number, number>(def
 const throwingStringValidatorOptions = new ValidationOptions<string, string>(defaultErrorFactory, throwingValidationResult<string>());
 const throwingTimestampValidatorOptions = new ValidationOptions<DateTime, DateTime>(defaultErrorFactory, throwingValidationResult<DateTime>());
 
+/**
+ * A collection of default throwing validators that will throw an error automatically on validation failure.
+ */
 export const throwingValidator = {
   objects: new ObjectValidator(throwingObjectValidatorOptions),
   strings: new StringValidator(throwingStringValidatorOptions),
