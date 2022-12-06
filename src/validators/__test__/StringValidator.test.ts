@@ -116,4 +116,40 @@ describe('StringValidator', () => {
       expect(() => VALIDATOR.validateResemblesEmail('j@f')).not.toThrow();
     });
   });
-})
+
+  describe('validateEquals', () => {
+    test('Should fail if the supplied string does not equal the expected value', () => {
+      expect(() => VALIDATOR.validateEquals("same", "other")).toThrow()
+      expect(() => VALIDATOR.validateEquals("Same", "same")).toThrow()
+    });
+
+    test('Should not fail if the supplied string equals the expected value', () => {
+      expect(() => VALIDATOR.validateEquals("same", "same")).not.toThrow()
+      expect(() => VALIDATOR.validateEquals("Same", "Same")).not.toThrow()
+    });
+  });
+
+  describe('validateEqualsCaseInsensitive', () => {
+    test('Should fail if the supplied string does not equal the expected value', () => {
+      expect(() => VALIDATOR.validateEqualsCaseInsensitive("same", "other")).toThrow()
+      expect(() => VALIDATOR.validateEqualsCaseInsensitive("Same", "Other")).toThrow()
+    });
+
+    test('Should not fail if the supplied string equals the expected value, case insensitive', () => {
+      expect(() => VALIDATOR.validateEqualsCaseInsensitive("Same", "same")).not.toThrow()
+      expect(() => VALIDATOR.validateEqualsCaseInsensitive("other", "Other")).not.toThrow()
+    });
+  });
+
+  describe('validateLengthEquals', () => {
+    test('Should fail if the supplied string does not have the expected length.', () => {
+      expect(() => VALIDATOR.validateLengthEquals("Some string", 4)).toThrow();
+      expect(() => VALIDATOR.validateLengthEquals("Some string", 14)).toThrow();
+    });
+
+    test('Should not fail if the supplied string has the expected length.', () => {
+      expect(() => VALIDATOR.validateLengthEquals("Some string", 11)).not.toThrow();
+      expect(() => VALIDATOR.validateLengthEquals("", 0)).not.toThrow();
+    });
+  });
+});

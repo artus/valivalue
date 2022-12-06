@@ -118,4 +118,16 @@ describe('NumberValidator', () => {
       expect(() => VALIDATOR.validateIsOdd(111)).not.toThrow();
     });
   });
+
+  describe('validateEquals', () => {
+    test('Should fail validation if the supplied number does not equal the expected value.', () => {
+      expect(() => VALIDATOR.validateEquals(1, 2)).toThrow()
+      expect(() => VALIDATOR.validateEquals(2, -2)).toThrow()
+    });
+
+    test('Should not fail validation if the supplied number equals the expected value.', () => {
+      expect(() => VALIDATOR.validateEquals(2, 2)).not.toThrow()
+      expect(() => VALIDATOR.validateEquals(2, 2.0)).not.toThrow()
+    });
+  });
 });

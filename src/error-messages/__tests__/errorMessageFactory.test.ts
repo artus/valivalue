@@ -44,6 +44,8 @@ describe('errorMessageFactory', () => {
       .toBe('Number must be even.');
     expect(numbers.validateIsOdd(TEST_SUBJECTS.NUMBER, TEST_VALUES.NUMBER))
       .toBe('Number must be odd.');
+    expect(numbers.validateEquals(TEST_SUBJECTS.NUMBER, TEST_VALUES.NUMBER, 3))
+      .toBe('Number must be 3.');
   });
 
   test('strings', () => {
@@ -59,6 +61,10 @@ describe('errorMessageFactory', () => {
       .toBe("String can not contain 'forbidden'.");
     expect(strings.validateResemblesEmail(TEST_SUBJECTS.STRING, TEST_VALUES.STRING))
       .toBe('String must be an email address.');
+    expect(strings.validateEquals(TEST_SUBJECTS.STRING, TEST_VALUES.STRING, "whatever"))
+      .toBe("String must be 'whatever'.");
+    expect(strings.validateLengthEquals(TEST_SUBJECTS.STRING, TEST_VALUES.STRING, 3))
+      .toBe("String must be 3 character(s) long.");
   });
 
   test('objects', () => {

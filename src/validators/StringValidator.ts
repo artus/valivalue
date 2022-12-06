@@ -159,4 +159,58 @@ export class StringValidator<OutputType> extends AbstractValidator<string, Outpu
       () => errorMessageFactory(subject, value)
     );
   }
+
+  /**
+   * Validate whether the string matches another string, case insensitive.
+   * 
+   * @param {string} value - The value to be validated
+   * @param {number} mustEqual - The expected value
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
+  validateEqualsCaseInsensitive(
+    value: string,
+    mustEqual: string,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateEquals
+  ): OutputType {
+    return this.handle(value, value.toLowerCase() !== mustEqual.toLowerCase(), () => errorMessageFactory(subject, value, mustEqual));
+  }
+
+  /**
+   * Validate whether the string matches another string.
+   * 
+   * @param {string} value - The value to be validated
+   * @param {number} mustEqual - The expected value
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
+  validateEquals(
+    value: string,
+    mustEqual: string,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateEquals
+  ): OutputType {
+    return this.handle(value, value !== mustEqual, () => errorMessageFactory(subject, value, mustEqual));
+  }
+
+  /**
+   * Validate whether the string length is exactly the supplied value.
+   * 
+   * @param {string} value - The value to be validated
+   * @param {number} length - The length
+   * @param {string} [subject=String] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The reuslt of the validation.
+   */
+  validateLengthEquals(
+    value: string,
+    length: number,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = stringFactories.validateLengthEquals
+  ): OutputType {
+    return this.handle(value, value.length !== length, () => errorMessageFactory(subject, value, length));
+  }
 }

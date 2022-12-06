@@ -13,7 +13,8 @@ export const errorMessageFactories = {
     validateIsDivisibleBy: (subject: string, value: number, divisibleBy: number) => `${subject} must be divisible by ${divisibleBy}.`,
     validateIsFactorOf: (subject: string, value: number, factorOf: number) => `${subject} must be a factor of ${factorOf}.`,
     validateIsEven: (subject: string, value: number) => `${subject} must be even.`,
-    validateIsOdd: (subject: string, value: number) => `${subject} must be odd.`
+    validateIsOdd: (subject: string, value: number) => `${subject} must be odd.`,
+    validateEquals: (subject: string, value: number, mustEqual: number) => `${subject} must be ${mustEqual}.`
   },
   strings: {
     validateNotEmpty: (subject: string, value: string) => `${subject} must not be empty.`,
@@ -21,7 +22,9 @@ export const errorMessageFactories = {
     validateMaxLength: (subject: string, value: string, max: number) => `${subject} can not have more than ${max} character(s).`,
     validateMinAndMaxLength: (subject: string, value: string, min: number, max: number) => `${subject} must be between ${min} and ${max} characters long.`,
     validateDoesNotContain: (subject: string, value: string, forbidden: string) => `${subject} can not contain '${forbidden}'.`,
-    validateResemblesEmail: (subject: string, value: string) => `${subject} must be an email address.`
+    validateResemblesEmail: (subject: string, value: string) => `${subject} must be an email address.`,
+    validateEquals: (subject: string, value: string, otherValue: string) => `${subject} must be '${otherValue}'.`,
+    validateLengthEquals: (subject: string, value: string, length: number) => `${subject} must be ${length} character(s) long.`
   },
   objects: {
     validateNotNull: <InputType> (subject: string, value: InputType) => `${subject} can not be null.`,

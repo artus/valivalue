@@ -167,4 +167,23 @@ export class NumberValidator<OutputType> extends AbstractValidator<number, Outpu
   ): OutputType {
     return this.handle(value, value % 2 === 0, () => errorMessageFactory(subject, value));
   }
+
+  /**
+   * Validate whether the provided value is equal to the expected value.
+   * 
+   * @param {number} value - The value to be validated.
+   * @param {number} mustEqual - The expected value.
+   * @param {string} [subject=Number] - The subject being validated, which will be used in the errorMessageFactory.
+   * @param errorMessageFactory - The errorMessageFactory that will be used to construct an error message in case of validation failure.
+   * @returns {OutputType} The result of the validation.
+   */
+  validateEquals(
+    value: number,
+    mustEqual: number,
+    subject = DEFAULT_SUBJECT,
+    errorMessageFactory = numberFactories.validateEquals
+  ): OutputType {
+    return this.handle(value, value !== mustEqual, () => errorMessageFactory(subject, value, mustEqual));
+  }
+
 }
